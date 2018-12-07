@@ -79,6 +79,7 @@
     "typescript": "^3.2.2",
     "typings": "^2.1.1",
     "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2",
     "zone.js": "^0.8.10"
   },
   "peerDependencies": {},
@@ -87,7 +88,7 @@
   },
   "scripts": {
     "clean": "shx rm -rf dist docs",
-    "doc": "typedoc --out ./docs ./src/**/* --gitRevision dev",
+    "doc": "typedoc --out ./docs ./src/ --gitRevision dev",
     "build:modules": "tsc && tsc -m es6 --outDir lib-es6",
     "build": "npm run clean && npm run doc && npm run build:modules && webpack",
     "test": "typings install && karma start karma.conf.js",
