@@ -1,27 +1,25 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {BroadcastService} from "@azure/msal-angular";
 import { MsalService} from "@azure/msal-angular";
 import {ProductService} from "./product/product.service";
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from "rxjs";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'Msal Angular Demo';
+  title = "Msal Angular Demo";
   loggedIn : boolean;
   public userInfo: any = null;
   private subscription: Subscription;
   public isIframe: boolean;
 
-  constructor(private broadcastService: BroadcastService , private authService : MsalService,   private productService: ProductService)
-  {
+  constructor(private broadcastService: BroadcastService , private authService : MsalService,   private productService: ProductService) {
     //  This is to avoid reload during acquireTokenSilent() because of hidden iframe
     this.isIframe = window !== window.parent && !window.opener;
-   if(this.authService.getUser())
-    {
+   if (this.authService.getUser()) {
       this.loggedIn = true;
     }
    else {
@@ -29,13 +27,11 @@ export class AppComponent implements OnInit, OnDestroy {
    }
   }
 
-  login()
-  {
-   this.authService.loginPopup(["user.read" ,"api://a88bb933-319c-41b5-9f04-eff36d985612/access_as_user"]);
+  login() {
+   this.authService.loginPopup(["user.read" , "api://a88bb933-319c-41b5-9f04-eff36d985612/access_as_user"]);
   }
 
-  logout()
-  {
+  logout() {
    this.authService.logout();
   }
 
@@ -57,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
  ngOnDestroy() {
     this.broadcastService.getMSALSubject().next(1);
-    if(this.subscription) {
+    if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }

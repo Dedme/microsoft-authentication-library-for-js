@@ -1,15 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {BroadcastService} from "@azure/msal-angular";
-import { MsalService} from "@azure/msal-angular";
+import {MsalService} from "@azure/msal-angular";
 import {HttpClient} from "@angular/common/http";
 import {HttpServiceHelper} from "../common/HttpServiceHelper";
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from "rxjs";
 
 
 @Component({
-  selector: 'app-user-data',
-  templateUrl: './user-data.component.html',
-  styleUrls: ['./user-data.component.css']
+  selector: "app-user-data",
+  templateUrl: "./user-data.component.html",
+  styleUrls: ["./user-data.component.css"]
 })
 export class UserDataComponent implements OnInit {
 
@@ -29,12 +29,11 @@ export class UserDataComponent implements OnInit {
 
     //will work for acquireTokenSilent and acquireTokenPopup
     this.subscription = this.broadcastService.subscribe("msal:acquireTokenFailure", (payload) => {
-      console.log("acquire token failure " + JSON.stringify(payload))
-      if (payload.indexOf("consent_required") !== -1 || payload.indexOf("interaction_required") != -1) {
+      console.log("acquire token failure " + JSON.stringify(payload));
+      if (payload.indexOf("consent_required") !== -1 || payload.indexOf("interaction_required") !== -1) {
         this.authService.acquireTokenPopup(["user.read", "mail.send"]).then((token) => {
           this.getUSerProfile();
-        }, (error) => {
-        });
+        }, (error) => { return; });
       }
     });
   }
@@ -51,7 +50,7 @@ export class UserDataComponent implements OnInit {
 //extremely important to unsubscribe
   ngOnDestroy() {
     this.broadcastService.getMSALSubject().next(1);
-    if(this.subscription) {
+    if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }

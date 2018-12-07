@@ -1,4 +1,5 @@
-import {Observable} from 'rxjs/Rx'
+import {Observable} from "rxjs";
+import {catchError} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 
@@ -8,13 +9,10 @@ export class HttpServiceHelper {
   constructor(private http: HttpClient) {
   }
 
-  public httpGetRequest(url : string) {
-    return this.http.get(url)
-      .map(response => {
-        return response;
-      })
-      .catch(response => (Observable.throw(response)
-      ))
+  public httpGetRequest(url: string) {
+    return this.http.get(url).pipe(
+      catchError(response => (Observable.throw(response)))
+      );
   }
 
 }

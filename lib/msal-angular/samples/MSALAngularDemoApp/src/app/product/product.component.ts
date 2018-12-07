@@ -1,30 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductService } from './product.service';
-import { Product } from './product';
+import {Component, OnInit} from "@angular/core";
+import {ProductService} from "./product.service";
+import {Product} from "./product";
 import {BroadcastService} from "@azure/msal-angular";
-import { MsalService} from "@azure/msal-angular";
+import {MsalService} from "@azure/msal-angular";
 
 @Component({
-  templateUrl: './product.component.html',
+  templateUrl: "./product.component.html",
 })
 
-export class ProductComponent
-{
+export class ProductComponent {
 
-  products:Product[];
+  products: Product[];
 
-   constructor(private productService:ProductService, private broadcastService: BroadcastService, private authService: MsalService){
+   constructor(private productService: ProductService, private broadcastService: BroadcastService, private authService: MsalService) {
    }
 
 
    ngOnInit() {
-     this.products=this.productService.getProducts();
+     this.products = this.productService.getProducts();
 
-     this.broadcastService.subscribe("msal:acquireTokenSuccess", (payload) => {
-     });
+     this.broadcastService.subscribe("msal:acquireTokenSuccess", (payload) => { return; });
 
-     this.broadcastService.subscribe("msal:acquireTokenFailure", (payload) => {
-     });
+     this.broadcastService.subscribe("msal:acquireTokenFailure", (payload) => { return; });
 
    }
 
